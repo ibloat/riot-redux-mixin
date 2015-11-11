@@ -26,13 +26,15 @@ addition to the store itself)
 
 * `dispatch(action)` - what it says on the box
 * `dispatchify({actions})` - this one takes your actions or action
-    creators and make them available in your tag's scope to be dispatched
+    creators and makes them available in your tag's scope to be dispatched
     directly (without having to wrap them in dispatch() every time).
+    The `actions` parameter is an object containing the actions so by calling
+    `this.dispatchify({foo})` you then can dispatch `foo` via `this.foo()`
+    instead of `this.dispatch(foo())`.
     This is quite handy when you want to dispatch actions from DOM events.
-    The `actions` parameter is an object containing the actions
 * `subscribe(selector, callback = this.update)` - `selector` gets passed the current
     state and is expected to return only the values you want to watch.
-    For larger prjects using a memoizing library like reselect is
+    For larger projects using a memoizing library like reselect is
     probably a good idea. That way your tag will only get updated when
     state relevant to your tag has changed.
     When not passing in a callback your tag will get updated with the new state.
