@@ -30,6 +30,7 @@ function prepare () {
     mixin: reduxMixin(store),
     action: action,
     actionCreator: stub().returns(action),
+    actionCreatorWithArguments: function (a1, a2) { return { type: 'test', a1: a1, a2: a2 } },
     selector: selector,
     selectorWithRecomputations: selectorWithRecomputations,
     selectorWithNoopRecomputations: selectorWithNoopRecomputations,
@@ -62,15 +63,18 @@ test('Dispatchify sets dispatcher functions', (assert) => {
 
   p.mixin.dispatchify.call(p.obj, {
     action: p.action,
-    action2: p.actionCreator
+    action2: p.actionCreator,
+    action3: p.actionCreatorWithArguments
   })
 
   p.obj.action()
   p.obj.action2()
+  p.obj.action3(1, 2)
 
   assert.equal(p.store.dispatch.calledWith(p.action), true)
   assert.equal(p.store.dispatch.calledWith(p.actionCreator()), true)
-  assert.equal(p.store.dispatch.calledTwice, true)
+  assert.equal(p.store.dispatch.calledWith(p.actionCreatorWithArguments(1, 2)), true)
+  assert.equal(p.store.dispatch.calledThrice, true)
 
   assert.end()
 })
