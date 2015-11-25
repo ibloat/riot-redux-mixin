@@ -1,6 +1,6 @@
 {
   "name": "riot-redux-mixin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A riot mixin connecting tags to your redux store",
   "main": "index.js",
   "files": [
