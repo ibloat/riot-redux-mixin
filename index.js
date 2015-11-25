@@ -1,7 +1,3 @@
-function object (obj) {
-  return !!obj && typeof obj === 'object'
-}
-
 module.exports = function (store) {
   return {
     init: function () {
@@ -15,11 +11,14 @@ module.exports = function (store) {
       for (var idx in keys) {
         var key = keys[idx]
         var action = actions[key]
-        var resolvedAction = object(action) ? action : action()
 
         this[key] = (function (action) {
-          return function () { return store.dispatch(action) }
-        })(resolvedAction)
+          var isFunction = typeof action === 'function'
+          return function () {
+            var obj = isFunction ? action.apply(this, arguments) : action
+            return store.dispatch(obj)
+          }
+        })(action)
       }
     },
     subscribe: function (selector, callback) {
