@@ -9,7 +9,7 @@ function prepare () {
   var selectorResult = { value: 0 }
   var store = {
     getState: stub().returns(initialState),
-    dispatch: spy(),
+    dispatch: stub().returnsArg(0),
     subscribe: spy()
   }
 
@@ -51,9 +51,10 @@ test('Store is getting set', function (assert) {
 test('Dispatch is passed though to the store', function (assert) {
   var p = prepare()
 
-  p.mixin.dispatch(p.action)
+  var a = p.mixin.dispatch(p.action)
 
   assert.equal(p.store.dispatch.calledWith(p.action), true)
+  assert.equal(p.action, a)
 
   assert.end()
 })
