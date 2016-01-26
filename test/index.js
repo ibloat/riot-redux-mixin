@@ -20,7 +20,7 @@ function prepare () {
   selectorWithRecomputations.recomputations = function () { return i }
 
   var selectorWithNoopRecomputations = function (state) { return { value: state.count } }
-  selectorWithNoopRecomputations.recomputations = function () { return 0 }
+  selectorWithNoopRecomputations.recomputations = function () { return null }
 
   var action = { type: 'test' }
 
@@ -107,6 +107,22 @@ test('Subscription works with recomputations', (assert) => {
 
   assert.equal(p.selectorWithRecomputations.recomputations(), 2)
   assert.equal(p.store.subscribe.calledTwice, true)
+
+  callback.reset()
+  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, function (previous) { return !previous })
+  assert.equal(callback.calledWith(p.selectorResult), true)
+
+  callback.reset()
+  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, function () { return null })
+  assert.equal(callback.called, false)
+
+  callback.reset()
+  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, 'recomputations')
+  assert.equal(callback.calledWith(p.selectorResult), true)
+
+  callback.reset()
+  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, 'doesnotexist')
+  assert.equal(callback.calledWith(p.selectorResult), true)
 
   assert.end()
 })
