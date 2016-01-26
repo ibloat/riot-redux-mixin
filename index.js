@@ -4,7 +4,7 @@ module.exports = function (store) {
       this.store = store
     },
     dispatch: function (action) {
-      store.dispatch(action)
+      return store.dispatch(action)
     },
     dispatchify: function (actions) {
       var keys = Object.keys(actions)
