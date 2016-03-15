@@ -1,5 +1,6 @@
 riot-redux-mixin
 ================
+[![Build Status](https://travis-ci.org/ibloat/riot-redux-mixin.svg?branch=master)](https://travis-ci.org/ibloat/riot-redux-mixin) [![npm version](https://badge.fury.io/js/riot-redux-mixin.svg)](https://badge.fury.io/js/riot-redux-mixin)
 
 A riot mixin to connect tags to your redux store.
 Memoizing your selectors is probably a good idea (see
@@ -12,9 +13,10 @@ https://github.com/ibloat/riot-redux-sample)
 var store = configureStore()
 
 // pass the store to the mixin and tell riot about it
-riot.mixin('redux', riotReduxMixin(store))
+riot.mixin(riotReduxMixin(store)) // either globally
+riot.mixin('redux', riotReduxMixin(store)) // or shared
 ```
-and then in your tags
+and then in your tags (in case of a shared mixin)
 ```js
 this.mixin('redux')
 

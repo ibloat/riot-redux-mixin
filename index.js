@@ -38,7 +38,7 @@ module.exports = function (store) {
           f = selector.recomputations ? selector.recomputations : f
       }
 
-      var version = null
+      var version
       changed = function (previous) {
         version = f(previous)
         return previous !== version
@@ -53,7 +53,7 @@ module.exports = function (store) {
         }
       }
 
-      store.subscribe(compute)
+      this.on('unmount', store.subscribe(compute))
       compute()
     }
   }

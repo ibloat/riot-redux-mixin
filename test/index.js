@@ -20,12 +20,12 @@ function prepare () {
   selectorWithRecomputations.recomputations = function () { return i }
 
   var selectorWithNoopRecomputations = function (state) { return { value: state.count } }
-  selectorWithNoopRecomputations.recomputations = function () { return null }
+  selectorWithNoopRecomputations.recomputations = function () { return undefined }
 
   var action = { type: 'test' }
 
   return {
-    obj: { update: spy() },
+    obj: { update: spy(), on: spy() },
     store: store,
     mixin: reduxMixin(store),
     action: action,
@@ -113,7 +113,7 @@ test('Subscription works with recomputations', (assert) => {
   assert.equal(callback.calledWith(p.selectorResult), true)
 
   callback.reset()
-  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, function () { return null })
+  p.mixin.subscribe.call(p.obj, p.selectorWithRecomputations, callback, function () { return undefined })
   assert.equal(callback.called, false)
 
   callback.reset()
