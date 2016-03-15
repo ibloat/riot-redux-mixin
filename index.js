@@ -21,25 +21,39 @@ module.exports = function (store) {
         })(action)
       }
     },
-    subscribe: function (selector, callback) {
+    subscribe: function (selector, callback, changed) {
       if (!callback) {
         callback = this.update
       }
-      var _version = 0
-      var hasRecomputations = !!selector.recomputations
+
+      var f = function (previous) { return !previous }
+      switch (typeof changed) {
+        case 'function':
+          f = changed
+          break
+        case 'string':
+          f = selector[changed] ? selector[changed] : f
+          break
+        case 'undefined':
+          f = selector.recomputations ? selector.recomputations : f
+      }
+
+      var version
+      changed = function (previous) {
+        version = f(previous)
+        return previous !== version
+      }
 
       function compute () {
         var state = store.getState()
         var selected = selector(state)
-        var version = hasRecomputations ? selector.recomputations() : (_version + 1)
 
-        if (version !== _version) {
-          _version = version
+        if (changed(version)) {
           callback(selected)
         }
       }
 
-      store.subscribe(compute)
+      this.on('unmount', store.subscribe(compute))
       compute()
     }
   }
