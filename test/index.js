@@ -7,10 +7,11 @@ var reduxMixin = require('..')
 function prepare () {
   var initialState = { count: 0 }
   var selectorResult = { value: 0 }
+  var unsubscribe = spy()
   var store = {
     getState: stub().returns(initialState),
     dispatch: stub().returnsArg(0),
-    subscribe: spy()
+    subscribe: stub().returns(unsubscribe)
   }
 
   var selector = function (state) { return { value: state.count } }
@@ -27,6 +28,7 @@ function prepare () {
   return {
     obj: { update: spy(), on: spy() },
     store: store,
+    unsubscribe: unsubscribe,
     mixin: reduxMixin(store),
     action: action,
     actionCreator: stub().returns(action),
@@ -87,10 +89,11 @@ test('Subscription works', (assert) => {
   assert.equal(p.obj.update.calledWith(p.selectorResult), true)
 
   var callback = spy()
-  p.mixin.subscribe.call(p.obj, p.selector, callback)
+  p.mixin.subscribe.call(p.obj, p.selector, callback)()
   assert.equal(callback.calledWith(p.selectorResult), true)
   assert.equal(p.store.subscribe.calledTwice, true)
   assert.equal(p.obj.update.calledOnce, true)
+  assert.equal(p.unsubscribe.calledOnce, true)
 
   assert.end()
 })
