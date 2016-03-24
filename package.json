@@ -15,6 +15,7 @@
     "preversion": "npm test",
     "postversion": "npm publish",
     "test": "npm run lint && node test/index.js | faucet",
+    "coveralls": "istanbul cover test/index.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rimraf coverage",
     "coverage": "rimraf coverage && istanbul cover test/index.js"
   },
   "repository": {
@@ -28,6 +29,7 @@
   "author": "ibloat",
   "license": "ISC",
   "devDependencies": {
+    "coveralls": "^2.11.9",
     "faucet": "0.0.1",
     "istanbul": "^0.4.2",
     "rimraf": "^2.5.2",
