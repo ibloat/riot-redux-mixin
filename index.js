@@ -53,8 +53,10 @@ module.exports = function (store) {
         }
       }
 
-      this.on('unmount', store.subscribe(compute))
+      var unsubscribe = store.subscribe(compute)
+      this.on('unmount', unsubscribe)
       compute()
+      return unsubscribe
     }
   }
 }

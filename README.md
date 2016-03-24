@@ -69,3 +69,5 @@ this.subscribe(selector, console.log)
     E.g. where `foo(prev) { return prev; }` will never update `bar(prev) { return !prev }`
     always will.  
     Passing a `string` will cause the function to be looked up on the `selector`.
+    `subscribe` will return an `unsubscribe` function. On `unmount` this function will
+    automatically called.
