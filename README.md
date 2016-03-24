@@ -1,6 +1,6 @@
 riot-redux-mixin
 ================
-[![Build Status](https://travis-ci.org/ibloat/riot-redux-mixin.svg?branch=master)](https://travis-ci.org/ibloat/riot-redux-mixin) [![npm version](https://badge.fury.io/js/riot-redux-mixin.svg)](https://badge.fury.io/js/riot-redux-mixin)
+[![Build Status](https://travis-ci.org/ibloat/riot-redux-mixin.svg?branch=master)](https://travis-ci.org/ibloat/riot-redux-mixin) [![Coverage Status](https://coveralls.io/repos/github/ibloat/riot-redux-mixin/badge.svg?branch=master)](https://coveralls.io/github/ibloat/riot-redux-mixin?branch=master) [![npm version](https://badge.fury.io/js/riot-redux-mixin.svg)](https://badge.fury.io/js/riot-redux-mixin)
 
 A riot mixin to connect tags to your redux store.
 Memoizing your selectors is probably a good idea (see
